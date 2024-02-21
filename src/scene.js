@@ -12,28 +12,57 @@ export function createScene() {
   renderer.setSize(gameWindow.offsetWidth, gameWindow.offsetHeight);
   gameWindow.appendChild(renderer.domElement);
 
-  let meshes = [];
+  let terrain = [];
+  let building = [];
 
   function initialize(city) {
     scene.clear();
-    meshes = [];
+    terrain = [];
+    building = [];
     for (let x = 0; x < city.size; x++) {
       const column = [];
       for (let y = 0; y < city.size; y++) {
+        // Grass
         const geometry = new THREE.BoxGeometry(1, 1, 1);
         const material = new THREE.MeshLambertMaterial({ color: 0x00aa00 });
         const mesh = new THREE.Mesh(geometry, material);
-        mesh.position.set(x, 0, y);
+        mesh.position.set(x, -0.5, y);
         scene.add(mesh);
         column.push(mesh);
       }
-      meshes.push(column);
+      terrain.push(column);
+      building.push([...Array(city.size)]);
     }
 
     setupLights();
   }
 
-  function setupLights(){
+  function update(city) {
+    for (let x = 0; x < city.size; x++) {
+      for (let y = 0; y < city.size; y++) {
+        const tile = city.data[x][y];
+
+        if (tile.building && tile.building.startsWith('building')) {
+          // Building
+          const height = Number(tile.building.slice(-1));
+          const buildingGeometry = new THREE.BoxGeometry(1, height, 1);
+          const buildingMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+          const buildingMesh = new THREE.Mesh(buildingGeometry, buildingMaterial);
+          buildingMesh.position.set(x, height / 2, y);
+
+          if(building[x][y]){
+            scene.remove(building[x][y]);
+          }
+
+          scene.add(buildingMesh);
+          building[x][y] = buildingMesh;
+        }
+
+      }
+    }
+  }
+
+  function setupLights() {
     const lights = [
       new THREE.AmbientLight(0xffffff, 0.2),
       new THREE.DirectionalLight(0xffffff, 0.3),
@@ -74,6 +103,7 @@ export function createScene() {
 
   return {
     initialize,
+    update,
     start,
     stop,
     onMouseDown,
