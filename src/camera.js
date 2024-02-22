@@ -1,11 +1,11 @@
 import * as THREE from "three";
 
 export function createCamera(gameWindow) {
-  const camera = new THREE.PerspectiveCamera(75, gameWindow.offsetWidth / gameWindow.offsetHeight, 0.1, 1000);
+  const camera = new THREE.PerspectiveCamera(80, gameWindow.offsetWidth / gameWindow.offsetHeight, 0.1, 1000);
   camera.position.z = 5;
 
-  const DEG2RAD = Math.PI / 180;
-  const Y_AXIS = new THREE.Vector3(1, 0, 0);
+  const DEG2RAD = Math.PI / 180.0;
+  const Y_AXIS = new THREE.Vector3(0, 1, 0);
 
   const LEFT_MOUSE_BUTTON = 0;
   const MIDDLE_MOUSE_BUTTON = 1;
@@ -20,10 +20,10 @@ export function createCamera(gameWindow) {
   const ZOOM_SENSITIVITY = 0.02;
   const PAN_SENSITIVITY = -0.01;
 
-  let cameraOrigin = new THREE.Vector3();
+  let cameraOrigin = new THREE.Vector3(0, 7, 2);
   let cameraRadius = (MIN_CAMERA_RADIUS + MAX_CAMERA_RADIUS) / 2;
-  let cameraAzimuth = 135;
-  let cameraElevation = 45;
+  let cameraAzimuth = 230;
+  let cameraElevation = 55;
   let isLeftMouseDown = false;
   let isRightMouseDown = false;
   let isMiddleMouseDown = false;
@@ -73,8 +73,8 @@ export function createCamera(gameWindow) {
     if (isMiddleMouseDown) {
       const forward = new THREE.Vector3(0, 0, 1).applyAxisAngle(Y_AXIS, cameraAzimuth * DEG2RAD);
       const left = new THREE.Vector3(1, 0, 0).applyAxisAngle(Y_AXIS, cameraAzimuth * DEG2RAD);
-      cameraOrigin.add(forward.multiplyScalar(PAN_SENSITIVITY * deltaX));
-      cameraOrigin.add(left.multiplyScalar(PAN_SENSITIVITY * deltaY));
+      cameraOrigin.add(forward.multiplyScalar(PAN_SENSITIVITY * deltaY));
+      cameraOrigin.add(left.multiplyScalar(PAN_SENSITIVITY * deltaX));
       updateCameraPosition();
     }
 
