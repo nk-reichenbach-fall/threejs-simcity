@@ -20,7 +20,7 @@ export function createGame() {
 
     setInterval(() => {
         game.update();
-    }, 500);
+    }, 1000);
 
     scene.start();
 }
