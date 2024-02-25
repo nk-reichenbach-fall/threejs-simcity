@@ -99,6 +99,7 @@ export function createScene() {
     let intersections = raycaster.intersectObjects(scene.children);
 
     if (intersections.length > 0) {
+      console.log(intersections[0]);
       if (selectedObject) {
         selectedObject.material.emissive.setHex(0);
       }
