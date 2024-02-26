@@ -2,16 +2,23 @@ import { createScene } from "./scene";
 import { createCity } from "./city";
 
 export function createGame() {
+    let activeToolid = "";
     const scene = createScene();
-    const city = createCity(25);
+    const city = createCity(16);
 
     scene.initialize(city);
     scene.onSelectedObject = (selectedObject) => {
-        console.log(selectedObject);
-
         const { x, y } = selectedObject.userData;
         const tileInfo = city.data[x][y];
-        console.log(tileInfo);
+
+        if(activeToolid === 'bulldoze'){
+            tileInfo.buildingId = undefined;
+            scene.update(city);
+        } else if(!tileInfo.buildingId) {
+            tileInfo.buildingId = activeToolid;
+            scene.update(city);
+        }
+
     }
 
     document.addEventListener("mousedown", scene.onMouseDown.bind(scene), false);
@@ -22,6 +29,9 @@ export function createGame() {
         update() {
             city.update();
             scene.update(city);
+        },
+        setActiveToolId(toolId) {
+            activeToolid = toolId;
         }
     }
 
@@ -30,4 +40,6 @@ export function createGame() {
     }, 1000);
 
     scene.start();
+
+    return game;
 }

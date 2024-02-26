@@ -37,7 +37,6 @@ export function createCamera(gameWindow) {
       isLeftMouseDown = true;
     }
     if (event.button === RIGHT_MOUSE_BUTTON) {
-      console.log("mouse down");
       isRightMouseDown = true;
     }
     if (event.button === MIDDLE_MOUSE_BUTTON) {
@@ -45,12 +44,10 @@ export function createCamera(gameWindow) {
     }
   }
   function onMouseUp(event) {
-    console.log(event.button);
     if (event.button === LEFT_MOUSE_BUTTON) {
       isLeftMouseDown = false;
     }
     if (event.button === RIGHT_MOUSE_BUTTON) {
-      console.log("mouse up");
       isRightMouseDown = false;
     }
     if (event.button === MIDDLE_MOUSE_BUTTON) {
