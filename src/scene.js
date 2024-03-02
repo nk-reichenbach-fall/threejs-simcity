@@ -44,18 +44,19 @@ export function createScene() {
   function update(city) {
     for (let x = 0; x < city.size; x++) {
       for (let y = 0; y < city.size; y++) {
-        const currentBuildingId = buildings[x][y]?.userData.id;
-        const newBuildingId = city.data[x][y].building?.id;
+        const tile = city.data[x][y];
+        const existingBuilding = buildings[x][y];
 
-        if (!newBuildingId && currentBuildingId) {
-          scene.remove(buildings[x][y]);
+        if (!tile.building && existingBuilding) {
+          scene.remove(existingBuilding);
           buildings[x][y] = undefined;
         }
 
-        if (newBuildingId && newBuildingId !== currentBuildingId) {
-          scene.remove(buildings[x][y]);
-          buildings[x][y] = createAssets(newBuildingId, x, y);
+        if (tile.building && tile.building.updated) {
+          scene.remove(existingBuilding);
+          buildings[x][y] = createAssets(tile.building.id, x, y, tile.building);
           scene.add(buildings[x][y]);
+          tile.building.updated = false;
         }
       }
     }

@@ -2,25 +2,56 @@ export default {
     'resedential': () => {
         return {
             id: 'resedential',
-            update: () => { }
+            height: 1,
+            updated: true,
+            update: function () {
+                if (Math.random() < 0.1) {
+                    if (this.height < 5) {
+                        this.height += 1;
+                        this.updated = true;
+                    }
+                }
+            }
         }
     },
     'commercial': () => {
         return {
             id: 'commercial',
-            update: () => { }
+            height: 1,
+            updated: true,
+            update: function () {
+                if (Math.random() < 0.1) {
+                    if (this.height < 5) {
+                        this.height += 1;
+                        this.updated = true;
+                    }
+                }
+            }
         }
     },
     'industrial': () => {
         return {
             id: 'industrial',
-            update: () => { }
+            height: 1,
+            updated: true,
+            update: function () {
+                if (Math.random() < 0.1) {
+                    if (this.height < 5) {
+                        this.height += 1;
+                        this.updated = true;
+                    }
+                }
+            }
         }
     },
     'road': () => {
         return {
             id: 'road',
-            update: () => { }
+            height: 1,
+            updated: true,
+            update: function () {
+                this.updated = false;
+            }
         }
     }
 }
