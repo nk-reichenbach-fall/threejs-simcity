@@ -45,7 +45,7 @@ export function createScene() {
     for (let x = 0; x < city.size; x++) {
       for (let y = 0; y < city.size; y++) {
         const currentBuildingId = buildings[x][y]?.userData.id;
-        const newBuildingId = city.data[x][y].buildingId;
+        const newBuildingId = city.data[x][y].building?.id;
 
         if (!newBuildingId && currentBuildingId) {
           scene.remove(buildings[x][y]);
