@@ -13,14 +13,18 @@ export function createGame() {
         const { x, y } = selectedObject.userData;
         const tileInfo = city.data[x][y];
 
-        if(activeToolid === 'bulldoze'){
+        if (activeToolid === 'bulldoze') {
             tileInfo.building = undefined;
             scene.update(city);
-        } else if(!tileInfo.building) {
+        } else if (!tileInfo.building) {
             tileInfo.building = buildingFactory[activeToolid]();
             scene.update(city);
         }
 
+    }
+
+    function onMouseDown() {
+        
     }
 
     document.addEventListener("mousedown", scene.onMouseDown.bind(scene), false);

@@ -2,7 +2,6 @@ import * as THREE from "three";
 
 export function createCamera(gameWindow) {
   const camera = new THREE.PerspectiveCamera(80, gameWindow.offsetWidth / gameWindow.offsetHeight, 0.1, 1000);
-  camera.position.z = 5;
 
   const DEG2RAD = Math.PI / 180.0;
   const Y_AXIS = new THREE.Vector3(0, 1, 0);
@@ -11,8 +10,8 @@ export function createCamera(gameWindow) {
   const MIDDLE_MOUSE_BUTTON = 1;
   const RIGHT_MOUSE_BUTTON = 2;
 
-  const MIN_CAMERA_RADIUS = 1;
-  const MAX_CAMERA_RADIUS = 20;
+  const MIN_CAMERA_RADIUS = 0.1;
+  const MAX_CAMERA_RADIUS = 5;
 
   const MIN_CAMERA_ELEVATION = 30;
   const MAX_CAMERA_ELEVATION = 90;
@@ -20,10 +19,10 @@ export function createCamera(gameWindow) {
   const ZOOM_SENSITIVITY = 0.02;
   const PAN_SENSITIVITY = -0.01;
 
-  let cameraOrigin = new THREE.Vector3(0, 7, 2);
-  let cameraRadius = 5;
-  let cameraAzimuth = 230;
-  let cameraElevation = 55;
+  let cameraOrigin = new THREE.Vector3(8, 0, 8);
+  let cameraRadius = 0.5;
+  let cameraAzimuth = 225;
+  let cameraElevation = 45;
   let isLeftMouseDown = false;
   let isRightMouseDown = false;
   let isMiddleMouseDown = false;
@@ -88,13 +87,14 @@ export function createCamera(gameWindow) {
   }
 
   function updateCameraPosition() {
-    camera.position.x = cameraRadius * Math.sin(cameraAzimuth * DEG2RAD) * Math.cos(cameraElevation * DEG2RAD);
-    camera.position.y = cameraRadius * Math.sin(cameraElevation * DEG2RAD);
-    camera.position.z = cameraRadius * Math.cos(cameraAzimuth * DEG2RAD) * Math.cos(cameraElevation * DEG2RAD);
+    camera.position.x = 30 * Math.sin(cameraAzimuth * DEG2RAD) * Math.cos(cameraElevation * DEG2RAD);
+    camera.position.y = 30 * Math.sin(cameraElevation * DEG2RAD);
+    camera.position.z = 30 * Math.cos(cameraAzimuth * DEG2RAD) * Math.cos(cameraElevation * DEG2RAD);
     camera.position.add(cameraOrigin);
     camera.lookAt(cameraOrigin);
     camera.updateMatrix();
   }
+
   return {
     camera,
     onMouseDown,
