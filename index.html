@@ -1,41 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="./public/main.css" />
-  </head>
-  <body>
-    <div id="root-window">
-      <div id="render-target">
-        <div id="ui-toolbar">
-          <button id="button-bulldoze" class="ui-button selected" onclick="setActiveTool(event, 'bulldoze')">Bulldoze</button>
-          <button id="button-residential" class="ui-button" onclick="setActiveTool(event, 'resedential')">Residential</button>
-          <button id="button-industrial" class="ui-button" onclick="setActiveTool(event, 'industrial')">Industrial</button>
-          <button id="button-commercial" class="ui-button" onclick="setActiveTool(event, 'commercial')">Commercial</button>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="./public/main.css" />
+</head>
+
+<body>
+  <div id="root-window">
+    <div id="render-target">
+      <div id="ui-toolbar">
+        <div>
+          <button id="button-select" class="ui-button selected" onclick="setActiveTool(event, 'select')">Select</button>
+          <button id="button-bulldoze" class="ui-button" onclick="setActiveTool(event, 'bulldoze')">Bulldoze</button>
+          <button id="button-residential" class="ui-button"
+          onclick="setActiveTool(event, 'resedential')">Residential</button>
+          <button id="button-industrial" class="ui-button"
+          onclick="setActiveTool(event, 'industrial')">Industrial</button>
+        <button id="button-commercial" class="ui-button"
+          onclick="setActiveTool(event, 'commercial')">Commercial</button>
           <button id="button-road" class="ui-button" onclick="setActiveTool(event, 'road')">Road</button>
         </div>
+          <div id="info-panel">Info
+          <div id="selected-object-info"></div>
+        </div>
+        <button id="button-pause" class="ui-button" onclick="setActiveTool(event, 'pause')">Pause</button>
       </div>
     </div>
+  </div>
 
-    <script type="module">
-      import { createGame } from './src/game.js';
-      
-      let selectedControl = document.getElementById('button-bulldoze');
+  <script type="module">
+    import { createGame } from './src/game.js';
 
-      window.onload = () => {
-        window.game = createGame();
-      };
+    let selectedControl = document.getElementById('button-bulldoze');
 
-      window.setActiveTool = (event, toolId) => {
-        if(selectedControl){
-          selectedControl.classList.remove('selected');
-        }
+    window.onload = () => {
+      window.game = createGame();
+    };
 
-        selectedControl = event.target;
-        selectedControl.classList.add('selected');
-
-        window.game.setActiveToolId(toolId);
+    window.setActiveTool = (event, toolId) => {
+      if (selectedControl) {
+        selectedControl.classList.remove('selected');
       }
-    </script>
-  </body>
+
+      selectedControl = event.target;
+      selectedControl.classList.add('selected');
+
+      window.game.setActiveToolId(toolId);
+    }
+  </script>
+</body>
+
 </html>

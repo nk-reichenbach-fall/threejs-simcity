@@ -3,7 +3,7 @@ import { createCity } from "./city";
 import buildingFactory from './building';
 
 export function createGame() {
-    let activeToolid = "";
+    let activeToolId = "";
     const scene = createScene();
     const city = createCity(16);
 
@@ -13,19 +13,45 @@ export function createGame() {
         const { x, y } = selectedObject.userData;
         const tileInfo = city.data[x][y];
 
-        if (activeToolid === 'bulldoze') {
+        if (activeToolId === 'bulldoze') {
             tileInfo.building = undefined;
             scene.update(city);
         } else if (!tileInfo.building) {
-            tileInfo.building = buildingFactory[activeToolid]();
+            tileInfo.building = buildingFactory[activeToolId]();
             scene.update(city);
         }
 
     }
 
-    function onMouseDown() {
-        
+    function onMouseDown(event) {
+        if (event.button === 0) {
+            const selectedObject = scene.getSelectedObject(event);
+            useActiveTool(selectedObject);
+        };
+    };
+
+    function useActiveTool(object) {
+        if (!object) {
+            updateInfoPanel(null);
+            return;
+        }
+
+        const { x, y } = object.userData;
+        const tile = city.tiles[x][y];
+
+        if (activeToolId === 'select') {
+            scene.setActiveToolId(object);
+            updateInfoPanel(tile);
+        } else if (activeToolId === 'bulldoze') {
+            bulldoze(tile);
+        } else if (!tile.building) {
+            placeBuilding(tile);
+        }
     }
+
+    function updateInfoPanel(tile) {
+        document.getElementById('selected-object-info').innerHTML = tile ? JSON.stringify(tile, ' ', 2) : '';
+    };
 
     document.addEventListener("mousedown", scene.onMouseDown.bind(scene), false);
     document.addEventListener("mouseup", scene.onMouseUp.bind(scene), false);
@@ -37,7 +63,7 @@ export function createGame() {
             scene.update(city);
         },
         setActiveToolId(toolId) {
-            activeToolid = toolId;
+            activeToolId = toolId;
         }
     }
 

@@ -93,6 +93,26 @@ export function createScene() {
     renderer.setAnimationLoop(null);
   }
 
+  /**
+   * Gets the object currently selected by mouse object, if nothing
+   * is under the selection, returns null
+   * @param {MouseEvent} event Mouse Event
+   */
+  function getSelectedObject(event) {
+    mouse.x = (event.clientX / renderer.domElement.clientWidth) * 2 - 1;
+    mouse.y = - (event.clientY / renderer.domElement.clientHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera.camera);
+
+    let intersections = raycaster.intersectObjects(scene.children, false);
+
+    if (intersections.length > 0) {
+      return intersections[0].object;
+    } else {
+      return null;
+    }
+  };
+
   function onMouseDown(event) {
     camera.onMouseDown(event);
 
@@ -125,6 +145,7 @@ export function createScene() {
 
   return {
     onSelectedObject,
+    getSelectedObject,
     initialize,
     update,
     start,
